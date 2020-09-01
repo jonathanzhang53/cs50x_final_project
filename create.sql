@@ -1,0 +1,22 @@
+-- users table
+-- DROP TABLE users;
+-- CREATE TABLE users (
+--     id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+--     username TEXT NOT NULL,
+--     hash TEXT NOT NULL
+-- );
+--
+
+-- purchases table
+-- CREATE TABLE purchases (
+--     id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+--     title TEXT,
+--     amount NUMERIC NOT NULL,
+--     category TINYTEXT NOT NULL,
+--     method TINYTEXT NOT NULL,
+--     time DATE,
+--     note TEXT,
+--     user_id INTEGER NOT NULL,
+--     FOREIGN KEY(user_id) REFERENCES users(id)
+-- );
+--

@@ -1,0 +1,83 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Edit Purchase
+{% endblock %}
+
+{% block main %}
+{% if not purchases %}
+<p>No valid purchases to edit.</p>
+{% else %}
+<label for="purchase">Select Purchase:</label>
+<select class="form-control" id="purchase" name="purchase" onchange="populate(this.value)">
+    <option hidden disabled selected value>Select Previous Purchase</option>
+    {% for i in range(purchases|length) %}
+    <option value={{ i }}>
+        {{ purchases[i]["title"] }}: {{ purchases[i]["amount"] }}
+        {% if purchases[i]["note"] %}
+        (note: {{ purchases[i]["note"] }})
+        {% endif %}
+    </option>
+    {% endfor %}
+</select>
+{% endif %}
+
+<form action="/edit" method="POST">
+    <fieldset id="field" disabled>
+        <div class="form-group">
+            <input class="form-control" id="purchase_id" name="purchase_id" hidden>
+        </div>
+        <div class="form-group">
+            <input class="form-control" id="title" type="text" name="title" placeholder="Title of Purchase">
+        </div>
+        <div class="form-group">
+            <input class="form-control" id="amount" type="number" name="amount" placeholder="Puchase Amount" step="0.01" required>
+        </div>
+        <div class="form-group">
+            <select class="form-control" id="category" name="category" required>
+                <option hidden disabled selected value>Select Category</option>
+                <option value="transportation">Transportation</option>
+                <option value="groceries">Groceries</option>
+                <option value="recreation">Recreation/Entertainment</option>
+                <option value="personal">Personal</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <select class="form-control" id="method" name="method" required>
+                <option hidden disabled selected value>Select Method</option>
+                <option value="credit">Credit</option>
+                <option value="cash">Cash</option>
+                <option value="debit">Debit</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <input class="form-control" id="date" type="date" name="date" required>
+        </div>
+        <div class="form-group">
+            <textarea class="form-control" id="note" name="note" placeholder="Notes..."></textarea>
+        </div>
+
+        <input class="btn btn-primary" type="submit" value="Edit Purchase">
+        <input class="btn btn-primary" type="button" name="cancel" value="Cancel" onClick="window.location.href='/';">
+    </fieldset>
+</form>
+
+{% block js %}
+<script>
+    var purchaselist = {{ purchases|tojson }};
+    // console.log(purchaselist)
+
+    function populate(index) {
+        var purchase = purchaselist[index];
+        document.querySelector("#field").removeAttribute("disabled");
+        document.querySelector("#title").value = purchase["title"];
+        document.querySelector("#amount").value = purchase["amount"];
+        document.querySelector("#category").value = purchase["category"];
+        document.querySelector("#method").value = purchase["method"];
+        document.querySelector("#date").value = purchase["time"];
+        document.querySelector("#note").value = purchase["note"];
+        document.querySelector("#purchase_id").value = purchase["id"];
+    }
+</script>
+{% endblock %}
+{% endblock %}

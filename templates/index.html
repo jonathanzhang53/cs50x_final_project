@@ -1,0 +1,101 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Dashboard
+{% endblock %}
+
+{% block main %}
+<h1>Dashboard</h1>
+<div class="container">
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Purchase Title</th>
+                <th scope="col">Amount</th>
+                <th scope="col">Category</th>
+                <th scope="col">Method</th>
+                <th scope="col">Date</th>
+                <th scope="col">Note</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for purchase in purchases %}
+            <tr>
+                <th scope="row">{{ purchase["title"] }}</th>
+                <td>{{ purchase["amount"] }}</td>
+                <td>{{ purchase["category"] }}</td>
+                <td>{{ purchase["method"] }}</td>
+                <td>{{ purchase["time"] }}</td>
+                <td>{{ purchase["note"] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+      </table>
+</div>
+
+<div class="container">
+    <h2>Category Spending Breakdown</h2>
+    <canvas id="categoryChart" width="600" height="400"></canvas>
+    <p id="caption">The chart is displaying a simple doughnut chart.</p>
+</div>
+
+<div class="container">
+    <h2>Method Spending Breakdown</h2>
+    <canvas id="methodChart" width="600" height="400"></canvas>
+    <p id="caption">The chart is displaying a simple doughnut chart.</p>
+</div>
+
+{% block js %}
+<script src="/static/chart.min.js"></script>
+<script>
+    // 15 distinct chart colors
+    var background = ["#0074D9", "#FF4136", "#2ECC40", "#FF851B", "#7FDBFF", "#B10DC9", "#FFDC00", "#001f3f", "#39CCCC", "#01FF70", "#85144b", "#F012BE", "#3D9970", "#111111", "#AAAAAA"];
+
+    var categoryChartData = {
+        labels : [
+            {% for item in categoryChart["labels"] %}
+            "{{ item }}",
+            {% endfor %}
+        ],
+        datasets: [{
+            label: "{{ categoryChart["legend"] }}",
+            backgroundColor: background,
+            data: [{% for item in categoryChart["values"] %}
+            {{ item }},
+            {% endfor %}
+            ]
+        }]
+    }
+
+    var methodChartData = {
+        labels : [
+            {% for item in methodChart["labels"] %}
+            "{{ item }}",
+            {% endfor %}
+        ],
+        datasets: [{
+            label: "{{ methodChart["legend"] }}",
+            backgroundColor: background,
+            data: [{% for item in methodChart["values"] %}
+            {{ item }},
+            {% endfor %}
+            ]
+        }]
+    }
+
+    var ctx = document.querySelector("#categoryChart").getContext("2d");
+    var categoryChart = new Chart(ctx, {
+        type: "doughnut",
+        data: categoryChartData,
+        responsive: false,
+    });
+
+    var ctx = document.querySelector("#methodChart").getContext("2d");
+    var methodChart = new Chart(ctx, {
+        type: "doughnut",
+        data: methodChartData,
+        responsive: false,
+    });
+</script>
+{% endblock %}
+{% endblock %}

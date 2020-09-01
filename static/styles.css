@@ -1,0 +1,41 @@
+/* Sticky Footer Styles */
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    margin-bottom: 60px; /* Margin bottom by footer height */
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 60px; /* Set the fixed height of the footer here */
+    line-height: 60px; /* Vertically center the text there */
+    background-color: #f5f5f5;
+}
+
+/* Container Styling */
+body > .container {
+    padding: 60px 15px 0;
+}
+  
+.footer > .container {
+    padding-right: 15px;
+    padding-left: 15px;
+}
+
+/* Main Jinja Block Styling */
+main .form-control
+{
+    display: inline-block; /* Center form-control */
+    width: auto; /* Override Bootstrap 4 100% width for form-control */
+}
+
+main
+{
+    overflow-x: auto; /* Horizontal Scroll */
+    text-align: center; /* Center */
+}

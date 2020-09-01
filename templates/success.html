@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Success
+{% endblock %}
+
+{% block main %}
+{% if status == "added" %}
+<p>Successfully added purchase!</p>
+<a href="/add">Add Another Purchase</a>
+{% elif status == "edited" %}
+<p>Successfully edited purchase!</p>
+<a href="/edit">Edit Another Purchase</a>
+{% endif %}
+{% endblock %}

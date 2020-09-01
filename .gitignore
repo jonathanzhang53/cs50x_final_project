@@ -1,0 +1,5 @@
+# no __pycache__
+*.pyc
+
+# todo.txt file for development
+todo.txt
